@@ -14,12 +14,12 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/addUser")
+    @PostMapping("/add-user")
     public User addUser(@RequestBody User user) {
         return userService.createUser(user);
     }
 
-    @PostMapping("/addUsers")
+    @PostMapping("/add-users")
     public List<User> addUsers(@RequestBody List<User> users) {
         return userService.createUsers(users);
     }
@@ -34,7 +34,7 @@ public class UserController {
         return userService.getUsers();
     }
 
-    @PutMapping("/updateUser")
+    @PutMapping("/update-user")
     public User updateUser(@RequestBody User user) {
         return userService.updateUser(user);
     }
