@@ -37,6 +37,9 @@ public class UserService {
             oldUser = optionalUser.get();
             oldUser.setName(user.getName());
             oldUser.setAddress(user.getAddress());
+            oldUser.setProfile(user.getProfile());
+            oldUser.setRoles(user.getRoles());
+            oldUser.setPosts(user.getPosts());
             userRepository.save(oldUser);
         }else {
             return new User();
@@ -48,4 +51,6 @@ public class UserService {
         userRepository.deleteById(id);
         return "User deleted";
     }
+
+
 }
