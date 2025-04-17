@@ -27,16 +27,21 @@ public class RoleService {
     }
 
     public Role updateRole(Role role) {
-        Role oldRole = null;
-        Optional<Role> optionalRole = roleRepository.findById(role.getId());
+
+        return updateOldRole(role);
+
+    }
+
+    private Role updateOldRole(Role newRoleData) {
+        Optional<Role> optionalRole = roleRepository.findById(newRoleData.getId());
         if (optionalRole.isPresent()) {
-            oldRole = optionalRole.get();
-            oldRole.setName(role.getName());
-            roleRepository.save(oldRole);
+            Role oldRole = optionalRole.get();
+            oldRole.setName(newRoleData.getName());
+            oldRole.setUsers(newRoleData.getUsers());
+            return roleRepository.save(oldRole);
         }else {
-            return new Role();
+            return null;
         }
-        return oldRole;
     }
 
     public void deleteRoleById(Long id) {

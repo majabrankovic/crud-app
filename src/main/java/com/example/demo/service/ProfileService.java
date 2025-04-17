@@ -28,20 +28,21 @@ public class ProfileService {
 
     public Profile updateProfile(Profile profile) {
 
-        Profile oldProfile = null;
-        Optional<Profile> optionalProfile = profileRepository.findById(profile.getId());
-        if (optionalProfile.isPresent()) {
-            oldProfile = optionalProfile.get();
-            oldProfile.setLocation(profile.getLocation());
-            oldProfile.setStatus(profile.getStatus());
-            oldProfile.setUser(profile.getUser());
-            oldProfile.setUsername(profile.getUsername());
-            profileRepository.save(oldProfile);
-        }else{
-            return new Profile();
-        }
+        return updateOldProfile(profile);
+    }
 
-        return oldProfile;
+    private Profile updateOldProfile(Profile newProfileData){
+        Optional<Profile> optionalProfile = profileRepository.findById(newProfileData.getId());
+        if (optionalProfile.isPresent()) {
+            Profile oldProfile = optionalProfile.get();
+            oldProfile.setLocation(newProfileData.getLocation());
+            oldProfile.setStatus(newProfileData.getStatus());
+            oldProfile.setUser(newProfileData.getUser());
+            oldProfile.setUsername(newProfileData.getUsername());
+            return profileRepository.save(oldProfile);
+        }else{
+            return null;
+        }
     }
 
     public void deleteProfileById(Long id) {

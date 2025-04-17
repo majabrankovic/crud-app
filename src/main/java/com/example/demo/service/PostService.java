@@ -27,18 +27,21 @@ public class PostService {
     }
 
     public Post updatePost(Post post) {
-        Post oldPost = null;
-        Optional<Post> optionalPost = postRepository.findById(post.getId());
-        if (optionalPost.isPresent()) {
-            oldPost = optionalPost.get();
-            oldPost.setTitle(post.getTitle());
-            oldPost.setContent(post.getContent());
-            postRepository.save(oldPost);
-        }else {
-            return new Post();
-        }
 
-        return oldPost;
+        return updateOldPost(post);
+    }
+
+    private Post updateOldPost(Post newPostData) {
+        Optional<Post> optionalPost = postRepository.findById(newPostData.getId());
+        if (optionalPost.isPresent()) {
+            Post oldPost = optionalPost.get();
+            oldPost.setTitle(newPostData.getTitle());
+            oldPost.setContent(newPostData.getContent());
+            oldPost.setUser(newPostData.getUser());
+            return postRepository.save(oldPost);
+        }else {
+            return null;
+        }
     }
 
     public void deletePostById(Long id) {

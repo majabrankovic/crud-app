@@ -31,20 +31,24 @@ public class UserService {
     }
 
     public User updateUser(User user) {
-        User oldUser = null;
-        Optional<User> optionalUser = userRepository.findById(user.getId());
+
+        return updateOldUser(user);
+
+    }
+
+    private User updateOldUser(User newUserData) {
+        Optional<User> optionalUser = userRepository.findById(newUserData.getId());
         if(optionalUser.isPresent()) {
-            oldUser = optionalUser.get();
-            oldUser.setName(user.getName());
-            oldUser.setAddress(user.getAddress());
-            oldUser.setProfile(user.getProfile());
-            oldUser.setRoles(user.getRoles());
-            oldUser.setPosts(user.getPosts());
-            userRepository.save(oldUser);
+            User oldUser = optionalUser.get();
+            oldUser.setName(newUserData.getName());
+            oldUser.setAddress(newUserData.getAddress());
+            oldUser.setProfile(newUserData.getProfile());
+            oldUser.setRoles(newUserData.getRoles());
+            oldUser.setPosts(newUserData.getPosts());
+            return userRepository.save(oldUser);
         }else {
-            return new User();
+            return null;
         }
-        return oldUser;
     }
 
     public String deleteUserById(Long id) {

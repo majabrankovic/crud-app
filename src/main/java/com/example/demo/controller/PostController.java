@@ -29,12 +29,12 @@ public class PostController {
         return postService.getAllPosts();
     }
 
-    @PutMapping("update-post")
+    @PutMapping("/update-post")
     public Post updatePost(@RequestBody Post post) {
         return postService.updatePost(post);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public void  deletePostById(@PathVariable Long id) {
         postService.deletePostById(id);
     }
