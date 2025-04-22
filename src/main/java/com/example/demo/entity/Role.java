@@ -18,8 +18,8 @@ public class Role {
     private Long id;
     private String name;
 
-    @ManyToMany(mappedBy = "roles")
+    @OneToMany(mappedBy = "role")
     @JsonIgnore
-    private List<User> users;
+    private List<UserRole> userRoles;
 
 }

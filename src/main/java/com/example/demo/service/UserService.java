@@ -43,7 +43,7 @@ public class UserService {
             oldUser.setName(newUserData.getName());
             oldUser.setAddress(newUserData.getAddress());
             oldUser.setProfile(newUserData.getProfile());
-            oldUser.setRoles(newUserData.getRoles());
+            oldUser.setUserRoles(newUserData.getUserRoles());
             oldUser.setPosts(newUserData.getPosts());
             return userRepository.save(oldUser);
         }else {

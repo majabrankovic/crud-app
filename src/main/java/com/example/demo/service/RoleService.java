@@ -37,7 +37,7 @@ public class RoleService {
         if (optionalRole.isPresent()) {
             Role oldRole = optionalRole.get();
             oldRole.setName(newRoleData.getName());
-            oldRole.setUsers(newRoleData.getUsers());
+            oldRole.setUserRoles(newRoleData.getUserRoles());
             return roleRepository.save(oldRole);
         }else {
             return null;

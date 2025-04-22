@@ -29,9 +29,7 @@ public class User {
     @JsonIgnore
     private List<Post> posts;
 
-    @ManyToMany
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private List<Role> roles;
+    @OneToMany(mappedBy = "user")
+    private List<UserRole> userRoles;
 
 }
