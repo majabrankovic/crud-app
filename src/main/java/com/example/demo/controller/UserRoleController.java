@@ -11,8 +11,11 @@ import java.util.List;
 @RequestMapping("/api/user-role")
 public class UserRoleController {
 
-    @Autowired
-    private UserRoleService userRoleService;
+    private final UserRoleService userRoleService;
+
+    public UserRoleController(UserRoleService userRoleService) {
+        this.userRoleService = userRoleService;
+    }
 
     @PostMapping("/add-user-role")
     public UserRole addUserRole(@RequestBody UserRole userRole) {

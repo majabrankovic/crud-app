@@ -13,8 +13,11 @@ import java.util.Optional;
 @Transactional
 public class ProfileService {
 
-    @Autowired
-    private ProfileRepository profileRepository;
+    private final ProfileRepository profileRepository;
+
+    public ProfileService(ProfileRepository profileRepository) {
+        this.profileRepository = profileRepository;
+    }
 
     public Profile createProfile(Profile profile) {
         return profileRepository.save(profile);
@@ -37,13 +40,16 @@ public class ProfileService {
         Optional<Profile> optionalProfile = profileRepository.findById(newProfileData.getId());
         if (optionalProfile.isPresent()) {
             Profile oldProfile = optionalProfile.get();
-            oldProfile.setLocation(newProfileData.getLocation());
-            oldProfile.setStatus(newProfileData.getStatus());
-            oldProfile.setUser(newProfileData.getUser());
-            oldProfile.setUsername(newProfileData.getUsername());
-            return profileRepository.save(oldProfile);
+
+             Profile updated = oldProfile.toBuilder()
+            .location(newProfileData.getLocation())
+            .status(newProfileData.getStatus())
+            .user(newProfileData.getUser())
+            .username(newProfileData.getUsername()).build();
+
+            return profileRepository.save(updated);
         }else{
-            return new Profile();
+            return Profile.builder().build();
         }
     }
 

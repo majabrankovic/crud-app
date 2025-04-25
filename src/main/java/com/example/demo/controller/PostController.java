@@ -11,8 +11,11 @@ import java.util.List;
 @RequestMapping("/api/post")
 public class PostController {
 
-    @Autowired
-    private PostService postService;
+    private final PostService postService;
+
+    public PostController(PostService postService) {
+        this.postService = postService;
+    }
 
     @PostMapping("/add-post")
     public Post addPost(@RequestBody Post post) {

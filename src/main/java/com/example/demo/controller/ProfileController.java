@@ -11,8 +11,11 @@ import java.util.List;
 @RequestMapping("/api/profile")
 public class ProfileController {
 
-    @Autowired
-    private ProfileService profileService;
+    private final ProfileService profileService;
+
+    public ProfileController(ProfileService profileService) {
+        this.profileService = profileService;
+    }
 
     @PostMapping("/add-profile")
     public Profile addProfile(@RequestBody Profile profile) {

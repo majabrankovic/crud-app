@@ -13,8 +13,11 @@ import java.util.Optional;
 @Transactional
 public class RoleService {
 
-    @Autowired
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
+
+    public RoleService(RoleRepository roleRepository) {
+        this.roleRepository = roleRepository;
+    }
 
     public Role createRole(Role role) {
         return roleRepository.save(role);
@@ -38,11 +41,14 @@ public class RoleService {
         Optional<Role> optionalRole = roleRepository.findById(newRoleData.getId());
         if (optionalRole.isPresent()) {
             Role oldRole = optionalRole.get();
-            oldRole.setName(newRoleData.getName());
-            oldRole.setUserRoles(newRoleData.getUserRoles());
-            return roleRepository.save(oldRole);
+
+             Role updated = oldRole.toBuilder()
+            .name(newRoleData.getName())
+            .userRoles(newRoleData.getUserRoles()).build();
+
+            return roleRepository.save(updated);
         }else {
-            return new Role();
+            return Role.builder().build();
         }
     }
 

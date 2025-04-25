@@ -1,14 +1,18 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
 @EqualsAndHashCode
+@Builder(toBuilder = true)
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class UserRole {
 
     @Id

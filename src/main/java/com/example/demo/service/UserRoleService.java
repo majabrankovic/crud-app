@@ -13,8 +13,11 @@ import java.util.Optional;
 @Transactional
 public class UserRoleService {
 
-    @Autowired
-    private UserRoleRepository userRoleRepository;
+    private final UserRoleRepository userRoleRepository;
+
+    public UserRoleService(UserRoleRepository userRoleRepository) {
+        this.userRoleRepository = userRoleRepository;
+    }
 
     public UserRole createUserRole(UserRole userRole) {
         return userRoleRepository.save(userRole);
@@ -37,13 +40,16 @@ public class UserRoleService {
         Optional<UserRole> optionalUserRole = userRoleRepository.findById(newUserRoleData.getId());
         if (optionalUserRole.isPresent()) {
             UserRole oldUserRole = optionalUserRole.get();
-            oldUserRole.setUser(newUserRoleData.getUser());
-            oldUserRole.setRole(newUserRoleData.getRole());
-            oldUserRole.setActive(newUserRoleData.isActive());
-            oldUserRole.setAssignedAt(newUserRoleData.getAssignedAt());
-            return userRoleRepository.save(oldUserRole);
+
+            UserRole updated = oldUserRole.toBuilder()
+            .user(newUserRoleData.getUser())
+            .role(newUserRoleData.getRole())
+            .active(newUserRoleData.isActive())
+            .assignedAt(newUserRoleData.getAssignedAt()).build();
+
+            return userRoleRepository.save(updated);
         }else {
-            return new UserRole();
+            return UserRole.builder().build();
         }
 
     }

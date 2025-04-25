@@ -13,8 +13,11 @@ import java.util.Optional;
 @Transactional
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     public User createUser(User user) {
         return userRepository.save(user);
@@ -42,14 +45,17 @@ public class UserService {
         Optional<User> optionalUser = userRepository.findById(newUserData.getId());
         if(optionalUser.isPresent()) {
             User oldUser = optionalUser.get();
-            oldUser.setName(newUserData.getName());
-            oldUser.setAddress(newUserData.getAddress());
-            oldUser.setProfile(newUserData.getProfile());
-            oldUser.setUserRoles(newUserData.getUserRoles());
-            oldUser.setPosts(newUserData.getPosts());
-            return userRepository.save(oldUser);
+
+            User updated = oldUser.toBuilder()
+                    .name(newUserData.getName())
+                    .address(newUserData.getAddress())
+                    .profile(newUserData.getProfile())
+                    .userRoles(newUserData.getUserRoles())
+                    .posts(newUserData.getPosts()).build();
+
+            return userRepository.save(updated);
         }else {
-            return new User();
+            return User.builder().build();
         }
     }
 

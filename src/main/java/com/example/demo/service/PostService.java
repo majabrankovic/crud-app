@@ -13,8 +13,11 @@ import java.util.Optional;
 @Transactional
 public class PostService {
 
-    @Autowired
-    private PostRepository postRepository;
+    private final PostRepository postRepository;
+
+    public PostService(PostRepository postRepository) {
+        this.postRepository = postRepository;
+    }
 
     public Post createPost(Post post) {
         return postRepository.save(post);
@@ -37,12 +40,15 @@ public class PostService {
         Optional<Post> optionalPost = postRepository.findById(newPostData.getId());
         if (optionalPost.isPresent()) {
             Post oldPost = optionalPost.get();
-            oldPost.setTitle(newPostData.getTitle());
-            oldPost.setContent(newPostData.getContent());
-            oldPost.setUser(newPostData.getUser());
-            return postRepository.save(oldPost);
+
+             Post updated = oldPost.toBuilder()
+            .title(newPostData.getTitle())
+            .content(newPostData.getContent())
+            .user(newPostData.getUser()).build();
+
+            return postRepository.save(updated);
         }else {
-            return new Post();
+            return Post.builder().build();
         }
     }
 
