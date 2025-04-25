@@ -4,11 +4,13 @@ import com.example.demo.dao.ProfileRepository;
 import com.example.demo.entity.Profile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class ProfileService {
 
     @Autowired
@@ -41,7 +43,7 @@ public class ProfileService {
             oldProfile.setUsername(newProfileData.getUsername());
             return profileRepository.save(oldProfile);
         }else{
-            return null;
+            return new Profile();
         }
     }
 

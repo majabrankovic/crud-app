@@ -4,11 +4,13 @@ import com.example.demo.dao.UserRoleRepository;
 import com.example.demo.entity.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class UserRoleService {
 
     @Autowired
@@ -41,7 +43,7 @@ public class UserRoleService {
             oldUserRole.setAssignedAt(newUserRoleData.getAssignedAt());
             return userRoleRepository.save(oldUserRole);
         }else {
-            return null;
+            return new UserRole();
         }
 
     }

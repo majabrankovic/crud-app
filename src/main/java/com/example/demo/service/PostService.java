@@ -4,11 +4,13 @@ import com.example.demo.dao.PostRepository;
 import com.example.demo.entity.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class PostService {
 
     @Autowired
@@ -40,7 +42,7 @@ public class PostService {
             oldPost.setUser(newPostData.getUser());
             return postRepository.save(oldPost);
         }else {
-            return null;
+            return new Post();
         }
     }
 

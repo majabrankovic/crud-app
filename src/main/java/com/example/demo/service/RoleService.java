@@ -4,11 +4,13 @@ import com.example.demo.dao.RoleRepository;
 import com.example.demo.entity.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class RoleService {
 
     @Autowired
@@ -40,7 +42,7 @@ public class RoleService {
             oldRole.setUserRoles(newRoleData.getUserRoles());
             return roleRepository.save(oldRole);
         }else {
-            return null;
+            return new Role();
         }
     }
 
